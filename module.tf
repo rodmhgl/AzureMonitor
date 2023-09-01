@@ -6,7 +6,7 @@ resource "random_integer" "rng" {
 
 #create log analytics workspace
 resource "azurerm_log_analytics_workspace" "law" {
-  name                       = var.name
+  name                       = var.log_analytics_workspace_name
   location                   = var.location
   resource_group_name        = var.resource_group_name
   tags                       = var.tags
@@ -23,7 +23,7 @@ resource "azurerm_log_analytics_workspace" "law" {
 #create optional eventhub namespace
 resource "azurerm_eventhub_namespace" "ehnamespace" {
   count               = var.eventhub_required ? 1 : 0
-  name                = "${var.name}${local.rng}"
+  name                = var.eventhub_namespace_name // "${var.name}${local.rng}"
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = var.eventhub_sku
@@ -63,7 +63,7 @@ resource "azurerm_eventhub_namespace" "ehnamespace" {
 #create optional eventhub
 resource "azurerm_eventhub" "eh" {
   count               = var.eventhub_required ? 1 : 0
-  name                = var.name
+  name                = var.eventhub_name // var.name
   namespace_name      = azurerm_eventhub_namespace.ehnamespace[0].name
   resource_group_name = var.resource_group_name
   partition_count     = var.eventhub_parition_count
@@ -76,7 +76,7 @@ resource "azurerm_eventhub" "eh" {
 #create optional storage account for logs
 resource "azurerm_storage_account" "sa" {
   count                    = var.storage_account_required ? 1 : 0
-  name                     = "${var.name}${local.rng}"
+  name                     = var.storage_account_name // "${var.name}${local.rng}"
   resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = var.storage_account_tier
