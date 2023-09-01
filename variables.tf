@@ -1,5 +1,5 @@
 #Require variables###############################################################################
-variable "name" {
+variable "log_analytics_workspace_name" {
   description = "(Required) Name of the logging module"
   type        = string
 }
@@ -60,6 +60,18 @@ variable "eventhub_required" {
   description = "(Optional) is eventhub required?"
   type        = string
   default     = false
+}
+
+variable "eventhub_name" {
+  description = "Name for the event hub."
+  type        = string
+  default     = ""
+}
+
+variable "eventhub_namespace_name" {
+  description = "Name for the event hub namespace."
+  type        = string
+  default     = ""
 }
 
 variable "eventhub_sku" {
@@ -129,8 +141,14 @@ variable "eventhub_network_rules" {
 
 variable "storage_account_required" {
   description = "(Optional) is storage account required?"
-  type        = string
+  type        = bool
   default     = false
+}
+
+variable "storage_account_name" {
+  description = "Name for the storage account"
+  type        = string
+  default     = ""
 }
 
 variable "storage_account_tier" {
